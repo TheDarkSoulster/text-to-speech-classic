@@ -144,6 +144,12 @@ function updateCharCount() {
 // ===== SPEECH SYNTHESIS =====
 function speak() {
     const text = textInput.value.trim();
+    if (!text) return;
+
+    speechSynthesis.cancel();
+
+    setTimeout(() => {
+        currentUtterance = new SpeechSynthesisUtterance(text);
     
     if (!text) {
         alert('Please enter some text to speak.');
