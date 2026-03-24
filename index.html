@@ -1,38 +1,184 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Text to Speech</title>
-  <link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text-to-Speech App</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/5.0.1/iconfont/material-icons.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="styles.css">
+    <title>Voice Lab - Text to Speech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="root">
-        <h1>Text to Speech</h1>
-              <h4>Made by Saket D</h4>
-        <div class="input-container">
-            <input type="text" id="textInput" placeholder="Enter text...">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="material-symbols-outlined">graphic_eq</span>
+                <h1>Voice Lab</h1>
+            </div>
+            <p class="tagline">Professional Text-to-Speech Engine</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Text Input Section -->
+            <section class="input-section">
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Enter your text here..."
+                        maxlength="5000"
+                        rows="6"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="charCount">0</span> / 5000
+                    </div>
+                </div>
+                <button id="clearButton" class="btn-secondary">
+                    <span class="material-symbols-outlined">delete</span>
+                    Clear
+                </button>
+            </section>
+
+            <!-- Voice Controls Section -->
+            <section class="controls-section">
+                <div class="control-grid">
+                    <!-- Voice Selection -->
+                    <div class="control-group">
+                        <label for="voiceSelect">
+                            <span class="material-symbols-outlined">person</span>
+                            Voice
+                        </label>
+                        <select id="voiceSelect" class="select-input">
+                            <option value="">Loading voices...</option>
+                        </select>
+                    </div>
+
+                    <!-- Rate Control -->
+                    <div class="control-group">
+                        <label for="rateControl">
+                            <span class="material-symbols-outlined">speed</span>
+                            Speed: <span id="rateValue">1.0</span>x
+                        </label>
+                        <input 
+                            type="range" 
+                            id="rateControl" 
+                            min="0.5" 
+                            max="2" 
+                            step="0.1" 
+                            value="1"
+                            class="slider"
+                        >
+                    </div>
+
+                    <!-- Pitch Control -->
+                    <div class="control-group">
+                        <label for="pitchControl">
+                            <span class="material-symbols-outlined">tune</span>
+                            Pitch: <span id="pitchValue">1.0</span>
+                        </label>
+                        <input 
+                            type="range" 
+                            id="pitchControl" 
+                            min="0.5" 
+                            max="2" 
+                            step="0.1" 
+                            value="1"
+                            class="slider"
+                        >
+                    </div>
+
+                    <!-- Volume Control -->
+                    <div class="control-group">
+                        <label for="volumeControl">
+                            <span class="material-symbols-outlined">volume_up</span>
+                            Volume: <span id="volumeValue">100</span>%
+                        </label>
+                        <input 
+                            type="range" 
+                            id="volumeControl" 
+                            min="0" 
+                            max="100" 
+                            step="1" 
+                            value="100"
+                            class="slider"
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- Playback Controls -->
+            <section class="playback-section">
+                <div class="playback-controls">
+                    <button id="playButton" class="btn-primary btn-play">
+                        <span class="material-symbols-outlined">play_arrow</span>
+                        <span class="btn-text">Speak</span>
+                    </button>
+                    <button id="pauseButton" class="btn-secondary" disabled>
+                        <span class="material-symbols-outlined">pause</span>
+                    </button>
+                    <button id="resumeButton" class="btn-secondary" disabled>
+                        <span class="material-symbols-outlined">play_arrow</span>
+                    </button>
+                    <button id="stopButton" class="btn-secondary" disabled>
+                        <span class="material-symbols-outlined">stop</span>
+                    </button>
+                </div>
+
+                <!-- Waveform Visualizer -->
+                <div class="visualizer" id="visualizer">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Ready</span>
+                </div>
+            </section>
+
+            <!-- Quick Phrases -->
+            <section class="quick-phrases-section">
+                <h3>Quick Phrases</h3>
+                <div class="phrase-buttons">
+                    <button class="phrase-btn" data-phrase="Hello! How can I help you today?">Greeting</button>
+                    <button class="phrase-btn" data-phrase="Thank you for your attention.">Thank You</button>
+                    <button class="phrase-btn" data-phrase="This is a test of the text-to-speech system.">Test Message</button>
+                    <button class="phrase-btn" data-phrase="The quick brown fox jumps over the lazy dog.">Pangram</button>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="history-section">
+                <div class="history-header">
+                    <h3>Recent History</h3>
+                    <button id="clearHistory" class="btn-text">
+                        <span class="material-symbols-outlined">delete_sweep</span>
+                        Clear All
+                    </button>
+                </div>
+                <div id="historyList" class="history-list">
+                    <p class="empty-state">No history yet. Start speaking!</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Web Speech API</p>
+        </footer>
     </div>
-            <button id="speakButton">Execute</button>
-                    <h6>Requested by Kunal</h6>
 
-        </div>    <script src="script.js"></script>
-</body>
-</html>
-<!-- partial -->
-  <script  src="./script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
