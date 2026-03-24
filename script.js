@@ -202,7 +202,7 @@ function speak() {
     // Speak
     speechSynthesis.speak(currentUtterance);
     isPaused = false;
-}}
+})
 
 function pause() {
     if (speechSynthesis.speaking && !isPaused) {
